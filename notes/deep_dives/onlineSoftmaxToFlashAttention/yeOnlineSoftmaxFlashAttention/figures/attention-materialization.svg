@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="420" viewBox="0 0 980 420" role="img" aria-labelledby="title desc">
+  <title id="title">Standard attention materializes logits and attention matrix</title>
+  <desc id="desc">A diagram comparing standard self-attention stages with FlashAttention fusion.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2f4858"/>
+    </marker>
+    <style>
+      .label{font:600 18px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#1f2d3d}
+      .small{font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#52616b}
+      .math{font:17px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#213547}
+      .box{fill:#f8fbfc;stroke:#9ab7c4;stroke-width:2;rx:8}
+      .hot{fill:#fff5e6;stroke:#d99a32;stroke-width:2;rx:8}
+      .good{fill:#edf8f1;stroke:#55a66f;stroke-width:2;rx:8}
+      .arrow{stroke:#2f4858;stroke-width:2.5;fill:none;marker-end:url(#arrow)}
+      .dash{stroke:#a3a9ad;stroke-width:2;stroke-dasharray:7 6;fill:none}
+    </style>
+  </defs>
+  <rect x="0" y="0" width="980" height="420" fill="#ffffff"/>
+  <text x="40" y="44" class="label">标准 Self-Attention：中间矩阵需要落到全局内存</text>
+  <rect x="42" y="84" width="130" height="80" class="box"/>
+  <text x="82" y="117" class="math">Q,K,V</text>
+  <text x="65" y="145" class="small">输入矩阵</text>
+  <path d="M176 124 H254" class="arrow"/>
+  <rect x="260" y="84" width="150" height="80" class="hot"/>
+  <text x="306" y="116" class="math">X=QKᵀ</text>
+  <text x="285" y="145" class="small">logits, L×L</text>
+  <path d="M416 124 H494" class="arrow"/>
+  <rect x="500" y="84" width="170" height="80" class="hot"/>
+  <text x="532" y="116" class="math">A=softmax(X)</text>
+  <text x="536" y="145" class="small">attention, L×L</text>
+  <path d="M676 124 H754" class="arrow"/>
+  <rect x="760" y="84" width="140" height="80" class="box"/>
+  <text x="804" y="116" class="math">O=AV</text>
+  <text x="799" y="145" class="small">输出矩阵</text>
+
+  <path d="M286 176 C286 232, 594 232, 594 176" class="dash"/>
+  <text x="350" y="256" class="small">X 和 A 都是 L×L；长序列时，写入/读出它们的 I/O 成为瓶颈</text>
+
+  <text x="40" y="315" class="label">FlashAttention 的目标：不显式保存 X 和 A，直接流式更新 O</text>
+  <rect x="42" y="340" width="130" height="50" class="box"/>
+  <text x="82" y="371" class="math">Q,K,V</text>
+  <path d="M178 365 H254" class="arrow"/>
+  <rect x="260" y="330" width="420" height="70" class="good"/>
+  <text x="304" y="360" class="math">tile(QKᵀ) + online softmax + accumulate V</text>
+  <text x="324" y="385" class="small">只保留 m、d、O 的小状态和当前 tile</text>
+  <path d="M686 365 H754" class="arrow"/>
+  <rect x="760" y="340" width="140" height="50" class="box"/>
+  <text x="804" y="371" class="math">O</text>
+</svg>

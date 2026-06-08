@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="600" viewBox="0 0 1040 600" role="img" aria-labelledby="title desc">
+  <title id="title">CUDA kernel mapping for FlashAttention</title>
+  <desc id="desc">A diagram mapping FlashAttention concepts to CUDA resources.</desc>
+  <defs>
+    <style>
+      .title{font:700 21px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#1f2d3d}
+      .label{font:600 16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#1f2d3d}
+      .small{font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#52616b}
+      .math{font:15px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#213547}
+      .box{fill:#f8fbfc;stroke:#9ab7c4;stroke-width:2;rx:8}
+      .reg{fill:#eef6ff;stroke:#4d91c9;stroke-width:2;rx:6}
+      .smem{fill:#edf8f1;stroke:#55a66f;stroke-width:2;rx:6}
+      .mma{fill:#fff4e8;stroke:#d58b33;stroke-width:2;rx:6}
+      .line{stroke:#a0a8ad;stroke-width:2}
+    </style>
+  </defs>
+  <rect width="1040" height="600" fill="#fff"/>
+  <text x="40" y="45" class="title">CUDA 实现视角：把论文变量映射到线程块资源</text>
+  <rect x="55" y="85" width="920" height="430" class="box"/>
+  <text x="88" y="125" class="label">一个 CTA / thread block</text>
+  <rect x="90" y="155" width="245" height="310" class="smem"/>
+  <text x="120" y="190" class="label">Shared memory</text>
+  <text x="120" y="230" class="math">Q tile</text>
+  <text x="120" y="262" class="math">K tile / V tile</text>
+  <text x="120" y="294" class="math">O staging</text>
+  <text x="120" y="326" class="math">softmax scratch</text>
+  <text x="120" y="370" class="small">K/V 可共享 buffer</text>
+  <text x="120" y="395" class="small">双缓冲预取下一 tile</text>
+
+  <rect x="370" y="155" width="250" height="310" class="reg"/>
+  <text x="405" y="190" class="label">Registers</text>
+  <text x="405" y="230" class="math">frag_q, frag_k, frag_v</text>
+  <text x="405" y="262" class="math">acc_p = QKᵀ</text>
+  <text x="405" y="294" class="math">acc_o = running O</text>
+  <text x="405" y="326" class="math">curr_max, curr_sum</text>
+  <text x="405" y="358" class="math">prev_max, prev_sum</text>
+  <text x="405" y="395" class="small">每个线程保存若干行统计量</text>
+
+  <rect x="655" y="155" width="285" height="310" class="mma"/>
+  <text x="690" y="190" class="label">Tensor Core / warp MMA</text>
+  <text x="690" y="230" class="math">1) acc_p += Q × Kᵀ</text>
+  <text x="690" y="262" class="math">2) softmax row reduce</text>
+  <text x="690" y="294" class="math">3) local_o = P × V</text>
+  <text x="690" y="326" class="math">4) acc_o online update</text>
+  <text x="690" y="358" class="math">5) write O and LSE</text>
+  <text x="690" y="395" class="small">mask/dropout 在 tile 内融合</text>
+  <line x1="335" y1="310" x2="370" y2="310" class="line"/>
+  <line x1="620" y1="310" x2="655" y2="310" class="line"/>
+
+  <text x="80" y="555" class="small">核心工程目标：让 N×N 的 S/P 只存在于 registers/shared memory 的 tile 中，不写 HBM。</text>
+</svg>

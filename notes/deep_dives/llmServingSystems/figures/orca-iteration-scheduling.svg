@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="560" viewBox="0 0 1040 560">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#2f4858"/></marker>
+    <style>
+      .title{font:700 22px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#1f2d3d}
+      .label{font:600 16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#1f2d3d}
+      .small{font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#52616b}
+      .math{font:15px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#213547}
+      .box{fill:#f8fbfc;stroke:#9ab7c4;stroke-width:2;rx:8}
+      .bad{fill:#fff4e8;stroke:#d58b33;stroke-width:2;rx:8}
+      .good{fill:#edf8f1;stroke:#55a66f;stroke-width:2;rx:8}
+      .wait{fill:#eef6ff;stroke:#4d91c9;stroke-width:2;rx:8}
+      .arrow{stroke:#2f4858;stroke-width:2.4;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1040" height="560" fill="#fff"/>
+  <text x="40" y="45" class="title">Orca：从 request-level batch 到 iteration-level batch</text>
+  <rect x="60" y="92" width="420" height="390" class="bad"/>
+  <text x="90" y="130" class="label">传统 request-level scheduling</text>
+  <text x="90" y="165" class="small">一个 batch 固定到所有请求都结束</text>
+  <rect x="95" y="210" width="300" height="45" class="box"/><text x="115" y="238" class="math">Batch: A B C</text>
+  <rect x="95" y="270" width="80" height="42" class="good"/><text x="122" y="297" class="math">A</text>
+  <rect x="185" y="270" width="80" height="42" class="good"/><text x="212" y="297" class="math">B</text>
+  <rect x="275" y="270" width="80" height="42" class="good"/><text x="302" y="297" class="math">C</text>
+  <rect x="185" y="326" width="80" height="42" class="bad"/><text x="205" y="353" class="math">B done</text>
+  <text x="90" y="410" class="small">B 已完成也要等 A/C；新请求 D 也要等整个 batch 结束。</text>
+  <path d="M502 285 H560" class="arrow"/>
+  <rect x="580" y="92" width="380" height="390" class="good"/>
+  <text x="610" y="130" class="label">Orca iteration-level scheduling</text>
+  <text x="610" y="165" class="small">每生成一个 token 就回到 scheduler</text>
+  <rect x="625" y="205" width="270" height="50" class="wait"/><text x="646" y="236" class="math">Iter t: A B C</text>
+  <path d="M760 260 V300" class="arrow"/>
+  <rect x="625" y="308" width="270" height="50" class="wait"/><text x="646" y="339" class="math">Iter t+1: A C D</text>
+  <path d="M760 363 V403" class="arrow"/>
+  <rect x="625" y="410" width="270" height="50" class="wait"/><text x="646" y="441" class="math">Iter t+2: A C D E</text>
+  <text x="610" y="505" class="small">完成请求立即离开，新请求在下一个 iteration 加入。</text>
+</svg>

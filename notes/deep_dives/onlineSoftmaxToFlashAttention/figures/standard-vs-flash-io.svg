@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="520" viewBox="0 0 1040 520" role="img" aria-labelledby="title desc">
+  <title id="title">Standard attention versus FlashAttention IO</title>
+  <desc id="desc">A diagram comparing HBM reads and writes in standard attention and FlashAttention.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2f4858"/>
+    </marker>
+    <style>
+      .title{font:700 21px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#1f2d3d}
+      .label{font:600 16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#1f2d3d}
+      .small{font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#52616b}
+      .math{font:15px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#213547}
+      .hbm{fill:#f7f7f5;stroke:#8a8f93;stroke-width:2;rx:8}
+      .sram{fill:#edf8f1;stroke:#55a66f;stroke-width:2;rx:8}
+      .bad{fill:#fff4e8;stroke:#d58b33;stroke-width:2;rx:8}
+      .box{fill:#f8fbfc;stroke:#9ab7c4;stroke-width:2;rx:8}
+      .arrow{stroke:#2f4858;stroke-width:2.3;fill:none;marker-end:url(#arrow)}
+      .dash{stroke:#a0a8ad;stroke-width:2;stroke-dasharray:7 6;fill:none}
+    </style>
+  </defs>
+  <rect width="1040" height="520" fill="#fff"/>
+  <text x="40" y="44" class="title">标准 Attention：把 S 和 P 写到 HBM</text>
+  <rect x="45" y="75" width="180" height="345" class="hbm"/>
+  <text x="78" y="108" class="label">HBM 输入</text>
+  <text x="80" y="152" class="math">Q,K,V</text>
+  <text x="78" y="185" class="small">N×d, N×d, N×d</text>
+  <path d="M230 160 H305" class="arrow"/>
+  <rect x="315" y="118" width="135" height="70" class="box"/>
+  <text x="338" y="160" class="math">S=QKᵀ</text>
+  <path d="M456 153 H520" class="arrow"/>
+  <rect x="530" y="118" width="145" height="70" class="bad"/>
+  <text x="558" y="150" class="math">S in HBM</text>
+  <text x="572" y="174" class="small">N×N</text>
+  <path d="M682 153 H745" class="arrow"/>
+  <rect x="755" y="118" width="145" height="70" class="box"/>
+  <text x="780" y="150" class="math">P=softmax(S)</text>
+  <text x="795" y="174" class="small">读 S 写 P</text>
+  <path d="M827 195 V255" class="arrow"/>
+  <rect x="755" y="265" width="145" height="70" class="bad"/>
+  <text x="784" y="297" class="math">P in HBM</text>
+  <text x="795" y="321" class="small">N×N</text>
+  <path d="M748 300 H665" class="arrow"/>
+  <rect x="520" y="265" width="145" height="70" class="box"/>
+  <text x="558" y="297" class="math">O=PV</text>
+  <text x="550" y="321" class="small">读 P 和 V</text>
+  <path d="M513 300 H445" class="arrow"/>
+  <rect x="315" y="265" width="130" height="70" class="hbm"/>
+  <text x="357" y="297" class="math">O</text>
+  <text x="345" y="321" class="small">N×d</text>
+
+  <text x="40" y="468" class="small">瓶颈：S 和 P 是 N×N，softmax/mask/dropout 也围绕 N×N 反复读写。</text>
+
+  <text x="555" y="44" class="title">FlashAttention：只流式保存 tile 和统计量</text>
+  <rect x="555" y="75" width="390" height="345" class="sram"/>
+  <text x="585" y="108" class="label">单个 CUDA kernel 内</text>
+  <rect x="585" y="135" width="120" height="55" class="box"/>
+  <text x="620" y="169" class="math">Qᵢ</text>
+  <rect x="725" y="135" width="120" height="55" class="box"/>
+  <text x="762" y="169" class="math">Kⱼ,Vⱼ</text>
+  <path d="M705 163 H723" class="arrow"/>
+  <rect x="630" y="220" width="210" height="70" class="bad"/>
+  <text x="667" y="250" class="math">Sᵢⱼ=QᵢKⱼᵀ</text>
+  <text x="658" y="275" class="small">只在片上短暂存在</text>
+  <path d="M735 292 V326" class="arrow"/>
+  <rect x="600" y="335" width="270" height="62" class="box"/>
+  <text x="625" y="362" class="math">update mᵢ,lᵢ,Oᵢ</text>
+  <text x="622" y="386" class="small">最终只写回 O、l、m</text>
+  <path d="M875 367 H985" class="arrow"/>
+  <rect x="988" y="333" width="30" height="70" class="hbm"/>
+  <text x="962" y="432" class="small">HBM</text>
+  <path d="M585 190 C550 235,550 320,600 350" class="dash"/>
+</svg>

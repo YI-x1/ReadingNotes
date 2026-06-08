@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="520" viewBox="0 0 980 520" role="img" aria-labelledby="title desc">
+  <title id="title">Online softmax state update</title>
+  <desc id="desc">A diagram showing how online softmax rescales the previous denominator when the running max changes.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2f4858"/>
+    </marker>
+    <style>
+      .label{font:600 18px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#1f2d3d}
+      .small{font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#52616b}
+      .math{font:16px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#213547}
+      .box{fill:#f8fbfc;stroke:#9ab7c4;stroke-width:2;rx:8}
+      .old{fill:#eef6ff;stroke:#4d91c9;stroke-width:2;rx:8}
+      .new{fill:#fff4e8;stroke:#d58b33;stroke-width:2;rx:8}
+      .result{fill:#edf8f1;stroke:#55a66f;stroke-width:2;rx:8}
+      .arrow{stroke:#2f4858;stroke-width:2.5;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect x="0" y="0" width="980" height="520" fill="#ffffff"/>
+  <text x="40" y="45" class="label">Online Softmax 的两个状态</text>
+  <rect x="55" y="80" width="310" height="108" class="old"/>
+  <text x="85" y="113" class="math">已处理前 i-1 个元素</text>
+  <text x="85" y="143" class="math">mᵢ₋₁ = max(x₁...xᵢ₋₁)</text>
+  <text x="85" y="170" class="math">d'ᵢ₋₁ = Σ exp(xⱼ - mᵢ₋₁)</text>
+  <path d="M372 134 H455" class="arrow"/>
+  <rect x="465" y="80" width="205" height="108" class="new"/>
+  <text x="500" y="118" class="math">读入 xᵢ</text>
+  <text x="495" y="150" class="math">mᵢ=max(mᵢ₋₁,xᵢ)</text>
+  <path d="M678 134 H758" class="arrow"/>
+  <rect x="765" y="80" width="180" height="108" class="result"/>
+  <text x="798" y="118" class="math">得到新状态</text>
+  <text x="802" y="150" class="math">(mᵢ, d'ᵢ)</text>
+
+  <text x="55" y="255" class="label">关键补偿：如果最大值变了，旧分母必须换基准</text>
+  <rect x="70" y="285" width="880" height="130" class="box"/>
+  <text x="100" y="325" class="math">d'ᵢ = Σⱼ≤ᵢ exp(xⱼ - mᵢ)</text>
+  <text x="100" y="360" class="math">    = Σⱼ≤ᵢ₋₁ exp(xⱼ - mᵢ) + exp(xᵢ - mᵢ)</text>
+  <text x="100" y="395" class="math">    = d'ᵢ₋₁ · exp(mᵢ₋₁ - mᵢ) + exp(xᵢ - mᵢ)</text>
+
+  <text x="75" y="465" class="small">直觉：旧元素原来都以 mᵢ₋₁ 为参照；现在要以 mᵢ 为参照，因此整体乘上 exp(mᵢ₋₁-mᵢ)。</text>
+</svg>

@@ -1,0 +1,32 @@
+@inproceedings{kwonEfficientMemoryManagement2023,
+  title = {Efficient {{Memory Management}} for {{Large Language Model Serving}} with {{PagedAttention}}},
+  booktitle = {Proceedings of the 29th {{Symposium}} on {{Operating Systems Principles}}},
+  author = {Kwon, Woosuk and Li, Zhuohan and Zhuang, Siyuan and Sheng, Ying and Zheng, Lianmin and Yu, Cody Hao and Gonzalez, Joseph and Zhang, Hao and Stoica, Ion},
+  year = 2023,
+  month = oct,
+  pages = {611--626},
+  publisher = {ACM},
+  address = {Koblenz Germany},
+  doi = {10.1145/3600006.3613165},
+  urldate = {2026-06-01},
+  abstract = {High throughput serving of large language models (LLMs) requires batching sufficiently many requests at a time. However, existing systems struggle because the key-value cache (KV cache) memory for each request is huge and grows and shrinks dynamically. When managed inefficiently, this memory can be significantly wasted by fragmentation and redundant duplication, limiting the batch size. To address this problem, we propose PagedAttention, an attention algorithm inspired by the classical virtual memory and paging techniques in operating systems. On top of it, we build vLLM, an LLM serving system that achieves (1) near-zero waste in KV cache memory and (2) flexible sharing of KV cache within and across requests to further reduce memory usage. Our evaluations show that vLLM improves the throughput of popular LLMs by 2-4\texttimes{} with the same level of latency compared to the state-of-the-art systems, such as FasterTransformer and Orca. The improvement is more pronounced with longer sequences, larger models, and more complex decoding algorithms. vLLM's source code is publicly available at https://github.com/vllm-project/vllm.},
+  isbn = {979-8-4007-0229-7},
+  langid = {english},
+  file = {/Users/edy/Zotero/storage/347TVVGV/Kwon 等 - 2023 - Efficient Memory Management for Large Language Model Serving with PagedAttention.pdf}
+}
+
+@article{yuOrcaDistributedServing,
+  title = {Orca: {{A Distributed Serving System}} for {{Transformer-Based Generative Models}}},
+  author = {Yu, Gyeong-In and Jeong, Joo Seong and Kim, Geon-Woo and Chun, Byung-Gon},
+  abstract = {Large-scale Transformer-based models trained for generation tasks (e.g., GPT-3) have recently attracted huge interest, emphasizing the need for system support for serving models in this family. Since these models generate a next token in an autoregressive manner, one has to run the model multiple times to process an inference request where each iteration of the model generates a single output token for the request. However, existing systems for inference serving do not perform well on this type of workload that has a multi-iteration characteristic, due to their inflexible scheduling mechanism that cannot change the current batch of requests being processed; requests that have finished earlier than other requests in a batch cannot return to the client, while newly arrived requests have to wait until the current batch completely finishes.},
+  langid = {english},
+  file = {/Users/edy/Zotero/storage/QZ3KL4RX/Yu 等 - Orca A Distributed Serving System for Transformer-Based Generative Models.pdf}
+}
+
+@article{zhengSGLangEfficientExecution,
+  title = {{{SGLang}}: {{Efficient Execution}} of {{Structured Language Model Programs}}},
+  author = {Zheng, Lianmin and Yin, Liangsheng and Xie, Zhiqiang and Sun, Chuyue and Huang, Jeff and Yu, Cody Hao and Cao, Shiyi and Kozyrakis, Christos and Stoica, Ion and Gonzalez, Joseph E and Barrett, Clark and Sheng, Ying},
+  abstract = {Large language models (LLMs) are increasingly used for complex tasks that require multiple generation calls, advanced prompting techniques, control flow, and structured inputs/outputs. However, efficient systems are lacking for programming and executing these applications. We introduce SGLang, a system for efficient execution of complex language model programs. SGLang consists of a frontend language and a runtime. The frontend simplifies programming with primitives for generation and parallelism control. The runtime accelerates execution with novel optimizations like RadixAttention for KV cache reuse and compressed finite state machines for faster structured output decoding. Experiments show that SGLang achieves up to 6.4\texttimes{} higher throughput compared to state-of-the-art inference systems on various large language and multi-modal models on tasks including agent control, logical reasoning, few-shot learning benchmarks, JSON decoding, retrieval-augmented generation pipelines, and multi-turn chat. The code is publicly available at https://github.com/sgl-project/sglang.},
+  langid = {english},
+  file = {/Users/edy/Zotero/storage/D2X477X9/Zheng 等 - SGLang Efficient Execution of Structured Language Model Programs.pdf}
+}

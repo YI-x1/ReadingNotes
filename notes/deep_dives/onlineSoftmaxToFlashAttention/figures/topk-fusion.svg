@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="430" viewBox="0 0 980 430" role="img" aria-label="Softmax TopK fusion">
+  <defs>
+    <style>
+      .bg { fill: #fbfaf7; }
+      .panel { fill: #fff; stroke: #293241; stroke-width: 2; rx: 8; }
+      .stage { fill: #e0f2fe; stroke: #0284c7; stroke-width: 2; rx: 8; }
+      .stage2 { fill: #dcfce7; stroke: #16a34a; stroke-width: 2; rx: 8; }
+      .title { font: 700 25px Arial, sans-serif; fill: #293241; }
+      .head { font: 700 18px Arial, sans-serif; fill: #293241; }
+      .txt { font: 15px Arial, sans-serif; fill: #334155; }
+      .math { font: 16px Georgia, serif; fill: #111827; }
+      .arrow { stroke: #293241; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#293241"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="980" height="430"/>
+  <text x="40" y="45" class="title">Softmax + TopK fusion: compute only the K probabilities needed</text>
+
+  <rect x="55" y="78" width="870" height="125" class="panel"/>
+  <text x="80" y="112" class="head">传统分离执行</text>
+  <rect x="85" y="140" width="160" height="42" class="stage"/><text x="118" y="166" class="txt">Safe Softmax</text>
+  <path d="M255 161 H330" class="arrow"/>
+  <rect x="340" y="140" width="160" height="42" class="stage"/><text x="383" y="166" class="txt">store all y</text>
+  <path d="M510 161 H585" class="arrow"/>
+  <rect x="595" y="140" width="160" height="42" class="stage"/><text x="641" y="166" class="txt">TopK(y)</text>
+  <text x="785" y="166" class="math">≈ 5 accesses / x</text>
+
+  <rect x="55" y="245" width="870" height="125" class="panel"/>
+  <text x="80" y="279" class="head">Online Softmax + TopK 融合</text>
+  <rect x="85" y="307" width="275" height="42" class="stage2"/><text x="110" y="333" class="txt">one pass: update m, d, partial TopK</text>
+  <path d="M370 328 H475" class="arrow"/>
+  <rect x="485" y="307" width="250" height="42" class="stage2"/><text x="512" y="333" class="txt">normalize only selected K values</text>
+  <text x="785" y="333" class="math">≈ 1 access / x</text>
+
+  <text x="85" y="395" class="txt">核心原因：TopK 只需要最大的 K 个 logits；不必把所有 softmax 概率 yᵢ 都写回内存再读出来。</text>
+</svg>

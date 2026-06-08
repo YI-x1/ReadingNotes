@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="520" viewBox="0 0 980 520" role="img" aria-label="Parallel reduction for online softmax">
+  <defs>
+    <style>
+      .bg { fill: #f6f7fb; }
+      .node { fill: #ffffff; stroke: #264653; stroke-width: 2; rx: 8; }
+      .leaf { fill: #dff3ee; stroke: #2a9d8f; stroke-width: 2; rx: 8; }
+      .root { fill: #fff3cf; stroke: #e9a83b; stroke-width: 2; rx: 8; }
+      .title { font: 700 25px Arial, sans-serif; fill: #22313f; }
+      .txt { font: 15px Arial, sans-serif; fill: #334155; }
+      .math { font: 16px Georgia, serif; fill: #111827; }
+      .arrow { stroke: #264653; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#264653"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="980" height="520"/>
+  <text x="40" y="45" class="title">Associative pair merge enables parallel reduction</text>
+
+  <rect x="80" y="395" width="100" height="52" class="leaf"/><text x="103" y="426" class="math">[x₁, 1]</text>
+  <rect x="220" y="395" width="100" height="52" class="leaf"/><text x="243" y="426" class="math">[x₂, 1]</text>
+  <rect x="360" y="395" width="100" height="52" class="leaf"/><text x="383" y="426" class="math">[x₃, 1]</text>
+  <rect x="500" y="395" width="100" height="52" class="leaf"/><text x="523" y="426" class="math">[x₄, 1]</text>
+  <rect x="640" y="395" width="100" height="52" class="leaf"/><text x="663" y="426" class="math">[x₅, 1]</text>
+  <rect x="780" y="395" width="100" height="52" class="leaf"/><text x="803" y="426" class="math">[x₆, 1]</text>
+
+  <rect x="145" y="280" width="170" height="58" class="node"/><text x="168" y="314" class="math">[m₁₂, d₁₂]</text>
+  <rect x="425" y="280" width="170" height="58" class="node"/><text x="448" y="314" class="math">[m₃₄, d₃₄]</text>
+  <rect x="705" y="280" width="170" height="58" class="node"/><text x="728" y="314" class="math">[m₅₆, d₅₆]</text>
+
+  <rect x="282" y="165" width="190" height="58" class="node"/><text x="303" y="199" class="math">[m₁₂₃₄, d₁₂₃₄]</text>
+  <rect x="610" y="165" width="190" height="58" class="node"/><text x="632" y="199" class="math">[m₅₆, d₅₆]</text>
+
+  <rect x="420" y="75" width="220" height="58" class="root"/><text x="447" y="109" class="math">[mᵥ, dᵥ]</text>
+
+  <path d="M130 395 L205 338" class="arrow"/>
+  <path d="M270 395 L250 338" class="arrow"/>
+  <path d="M410 395 L485 338" class="arrow"/>
+  <path d="M550 395 L530 338" class="arrow"/>
+  <path d="M690 395 L765 338" class="arrow"/>
+  <path d="M830 395 L810 338" class="arrow"/>
+  <path d="M230 280 L365 223" class="arrow"/>
+  <path d="M510 280 L400 223" class="arrow"/>
+  <path d="M790 280 L705 223" class="arrow"/>
+  <path d="M377 165 L500 133" class="arrow"/>
+  <path d="M705 165 L560 133" class="arrow"/>
+
+  <text x="55" y="485" class="txt">每个节点只保存一段元素的 summary: max m，以及以该 max 为基准的 exp 和 d。</text>
+</svg>

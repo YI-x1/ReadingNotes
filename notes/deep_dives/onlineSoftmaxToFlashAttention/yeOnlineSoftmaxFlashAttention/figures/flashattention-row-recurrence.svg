@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="560" viewBox="0 0 980 560" role="img" aria-labelledby="title desc">
+  <title id="title">FlashAttention row recurrence</title>
+  <desc id="desc">A diagram showing how one attention row updates m, d, and output vector in one pass.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2f4858"/>
+    </marker>
+    <style>
+      .label{font:600 18px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#1f2d3d}
+      .small{font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#52616b}
+      .math{font:15px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#213547}
+      .box{fill:#f8fbfc;stroke:#9ab7c4;stroke-width:2;rx:8}
+      .state{fill:#edf8f1;stroke:#55a66f;stroke-width:2;rx:8}
+      .tile{fill:#fff4e8;stroke:#d58b33;stroke-width:2;rx:8}
+      .arrow{stroke:#2f4858;stroke-width:2.5;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect x="0" y="0" width="980" height="560" fill="#ffffff"/>
+  <text x="40" y="45" class="label">单行 Attention 的一遍递推</text>
+  <rect x="50" y="90" width="160" height="90" class="box"/>
+  <text x="78" y="125" class="math">固定一行 Q[k,:]</text>
+  <text x="70" y="153" class="small">逐个扫过 K/V</text>
+  <path d="M220 135 H300" class="arrow"/>
+  <rect x="310" y="90" width="180" height="90" class="tile"/>
+  <text x="348" y="122" class="math">xᵢ = Q[k,:]·K[i,:]</text>
+  <text x="350" y="153" class="small">当前 logit</text>
+  <path d="M500 135 H580" class="arrow"/>
+  <rect x="590" y="90" width="350" height="90" class="state"/>
+  <text x="620" y="122" class="math">更新 mᵢ, d'ᵢ, o'ᵢ</text>
+  <text x="620" y="153" class="small">最终 o'ₙ 就是 O[k,:]</text>
+
+  <rect x="60" y="235" width="880" height="250" class="box"/>
+  <text x="95" y="275" class="math">mᵢ = max(mᵢ₋₁, xᵢ)</text>
+  <text x="95" y="315" class="math">d'ᵢ = d'ᵢ₋₁ exp(mᵢ₋₁-mᵢ) + exp(xᵢ-mᵢ)</text>
+  <text x="95" y="355" class="math">o'ᵢ = o'ᵢ₋₁ · [d'ᵢ₋₁ exp(mᵢ₋₁-mᵢ) / d'ᵢ]</text>
+  <text x="95" y="395" class="math">      + V[i,:] · [exp(xᵢ-mᵢ) / d'ᵢ]</text>
+  <text x="95" y="445" class="small">解释：旧输出向量代表旧概率加权和；当最大值和分母变成新基准时，旧权重整体缩放，再加入当前 V[i,:] 的新权重。</text>
+</svg>

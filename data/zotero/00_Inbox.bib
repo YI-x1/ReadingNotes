@@ -1,0 +1,92 @@
+@misc{daoFlashAttentionFastMemoryEfficient2022,
+  title = {{{FlashAttention}}: {{Fast}} and {{Memory-Efficient Exact Attention}} with {{IO-Awareness}}},
+  shorttitle = {{{FlashAttention}}},
+  author = {Dao, Tri and Fu, Daniel Y. and Ermon, Stefano and Rudra, Atri and R{\'e}, Christopher},
+  year = 2022,
+  month = jun,
+  number = {arXiv:2205.14135},
+  eprint = {2205.14135},
+  primaryclass = {cs.LG},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2205.14135},
+  urldate = {2026-06-01},
+  abstract = {Transformers are slow and memory-hungry on long sequences, since the time and memory complexity of self-attention are quadratic in sequence length. Approximate attention methods have attempted to address this problem by trading off model quality to reduce the compute complexity, but often do not achieve wall-clock speedup. We argue that a missing principle is making attention algorithms IOaware---accounting for reads and writes between levels of GPU memory. We propose FlashAttention, an IO-aware exact attention algorithm that uses tiling to reduce the number of memory reads/writes between GPU high bandwidth memory (HBM) and GPU on-chip SRAM. We analyze the IO complexity of FlashAttention, showing that it requires fewer HBM accesses than standard attention, and is optimal for a range of SRAM sizes. We also extend FlashAttention to block-sparse attention, yielding an approximate attention algorithm that is faster than any existing approximate attention method. FlashAttention trains Transformers faster than existing baselines: 15\% end-to-end wall-clock speedup on BERT-large (seq. length 512) compared to the MLPerf 1.1 training speed record, 3 speedup on GPT-2 (seq. length 1K), and 2.4 speedup on long-range arena (seq. length 1K-4K). FlashAttention and block-sparse FlashAttention enable longer context in Transformers, yielding higher quality models (0.7 better perplexity on GPT-2 and 6.4 points of lift on long-document classification) and entirely new capabilities: the first Transformers to achieve better-than-chance performance on the Path-X challenge (seq. length 16K, 61.4\% accuracy) and Path-256 (seq. length 64K, 63.1\% accuracy).},
+  archiveprefix = {arXiv},
+  langid = {english},
+  keywords = {Computer Science - Machine Learning},
+  file = {/Users/edy/Zotero/storage/WNBVR5C5/Dao 等 - 2022 - FlashAttention Fast and Memory-Efficient Exact Attention with IO-Awareness.pdf}
+}
+
+@misc{DistServeDisaggregatingPrefill,
+  title = {{{DistServe}}: {{Disaggregating Prefill}} and {{Decoding}} for {{Goodput-optimized Large Language Model Serving}}},
+  urldate = {2026-06-03},
+  howpublished = {https://arxiv.org/html/2401.09670v1},
+  file = {/Users/edy/Zotero/storage/2EVINLUM/2401.html}
+}
+
+@inproceedings{kwonEfficientMemoryManagement2023,
+  title = {Efficient {{Memory Management}} for {{Large Language Model Serving}} with {{PagedAttention}}},
+  booktitle = {Proceedings of the 29th {{Symposium}} on {{Operating Systems Principles}}},
+  author = {Kwon, Woosuk and Li, Zhuohan and Zhuang, Siyuan and Sheng, Ying and Zheng, Lianmin and Yu, Cody Hao and Gonzalez, Joseph and Zhang, Hao and Stoica, Ion},
+  year = 2023,
+  month = oct,
+  pages = {611--626},
+  publisher = {ACM},
+  address = {Koblenz Germany},
+  doi = {10.1145/3600006.3613165},
+  urldate = {2026-06-01},
+  abstract = {High throughput serving of large language models (LLMs) requires batching sufficiently many requests at a time. However, existing systems struggle because the key-value cache (KV cache) memory for each request is huge and grows and shrinks dynamically. When managed inefficiently, this memory can be significantly wasted by fragmentation and redundant duplication, limiting the batch size. To address this problem, we propose PagedAttention, an attention algorithm inspired by the classical virtual memory and paging techniques in operating systems. On top of it, we build vLLM, an LLM serving system that achieves (1) near-zero waste in KV cache memory and (2) flexible sharing of KV cache within and across requests to further reduce memory usage. Our evaluations show that vLLM improves the throughput of popular LLMs by 2-4\texttimes{} with the same level of latency compared to the state-of-the-art systems, such as FasterTransformer and Orca. The improvement is more pronounced with longer sequences, larger models, and more complex decoding algorithms. vLLM's source code is publicly available at https://github.com/vllm-project/vllm.},
+  isbn = {979-8-4007-0229-7},
+  langid = {english},
+  file = {/Users/edy/Zotero/storage/347TVVGV/Kwon 等 - 2023 - Efficient Memory Management for Large Language Model Serving with PagedAttention.pdf}
+}
+
+@article{milakovOnlineNormalizerCalculation,
+  title = {Online Normalizer Calculation for Softmax},
+  author = {Milakov, Maxim and Gimelshein, Natalia},
+  abstract = {The Softmax function is ubiquitous in machine learning, multiple previous works suggested faster alternatives for it. In this paper we propose a way to compute classical Softmax with fewer memory accesses and hypothesize that this reduction in memory accesses should improve Softmax performance on actual hardware. The benchmarks confirm this hypothesis: Softmax accelerates by up to 1.3x and Softmax+TopK combined and fused by up to 5x.},
+  langid = {english},
+  file = {/Users/edy/Zotero/storage/6EKPGPX3/Milakov和Gimelshein - Online normalizer calculation for softmax.pdf}
+}
+
+@inproceedings{patelSplitwiseEfficientGenerative2024,
+  title = {Splitwise: {{Efficient Generative LLM Inference Using Phase Splitting}}},
+  shorttitle = {Splitwise},
+  booktitle = {2024 {{ACM}}/{{IEEE}} 51st {{Annual International Symposium}} on {{Computer Architecture}} ({{ISCA}})},
+  author = {Patel, Pratyush and Choukse, Esha and Zhang, Chaojie and Shah, Aashaka and Goiri, {\'I}{\~n}igo and Maleki, Saeed and Bianchini, Ricardo},
+  year = 2024,
+  month = jun,
+  pages = {118--132},
+  publisher = {IEEE},
+  address = {Buenos Aires, Argentina},
+  doi = {10.1109/ISCA59077.2024.00019},
+  urldate = {2026-06-03},
+  abstract = {Generative large language model (LLM) applications are growing rapidly, leading to large-scale deployments of expensive and power-hungry GPUs. Our characterization of LLM inference shows that each inference request undergoes two phases: a compute-intensive prompt computation phase and a memoryintensive token generation phase, each with distinct latency, throughput, memory, and power characteristics. Despite stateof-the-art batching and scheduling, the token generation phase underutilizes compute resources. Unlike prompt computation, token generation does not need the compute capability of the latest GPUs and can be run with lower power and cost. Based on these insights, we propose Splitwise, a model deployment and scheduling technique that splits the two phases of LLM inference requests on to separate machines. Splitwise enables phase-specific resource management using hardware that is well suited for each phase. Request state is transferred efficiently between machines using optimized network libraries on the fast back-plane interconnects available in today's GPU clusters. Using Splitwise, we design homogeneous and heterogeneous LLM inference clusters optimized for throughput, cost, and power. Compared to current designs, Splitwise clusters achieve up to 1.4\texttimes{} higher throughput at 20\% lower cost. Alternatively, they can deliver 2.35\texttimes{} more throughput under the same power and cost budgets.},
+  copyright = {https://doi.org/10.15223/policy-029},
+  isbn = {979-8-3503-2658-1},
+  langid = {english},
+  file = {/Users/edy/Zotero/storage/TB72PB7Q/Patel 等 - 2024 - Splitwise Efficient Generative LLM Inference Using Phase Splitting.pdf}
+}
+
+@article{yeOnlineSoftmaxFlashAttention,
+  title = {From {{Online Softmax}} to {{FlashAttention}}},
+  author = {Ye, Zihao},
+  langid = {english},
+  file = {/Users/edy/Zotero/storage/HSPDG9T2/Ye - From Online Softmax to FlashAttention.pdf}
+}
+
+@article{yuOrcaDistributedServing,
+  title = {Orca: {{A Distributed Serving System}} for {{Transformer-Based Generative Models}}},
+  author = {Yu, Gyeong-In and Jeong, Joo Seong and Kim, Geon-Woo and Chun, Byung-Gon},
+  abstract = {Large-scale Transformer-based models trained for generation tasks (e.g., GPT-3) have recently attracted huge interest, emphasizing the need for system support for serving models in this family. Since these models generate a next token in an autoregressive manner, one has to run the model multiple times to process an inference request where each iteration of the model generates a single output token for the request. However, existing systems for inference serving do not perform well on this type of workload that has a multi-iteration characteristic, due to their inflexible scheduling mechanism that cannot change the current batch of requests being processed; requests that have finished earlier than other requests in a batch cannot return to the client, while newly arrived requests have to wait until the current batch completely finishes.},
+  langid = {english},
+  file = {/Users/edy/Zotero/storage/QZ3KL4RX/Yu 等 - Orca A Distributed Serving System for Transformer-Based Generative Models.pdf}
+}
+
+@article{zhengSGLangEfficientExecution,
+  title = {{{SGLang}}: {{Efficient Execution}} of {{Structured Language Model Programs}}},
+  author = {Zheng, Lianmin and Yin, Liangsheng and Xie, Zhiqiang and Sun, Chuyue and Huang, Jeff and Yu, Cody Hao and Cao, Shiyi and Kozyrakis, Christos and Stoica, Ion and Gonzalez, Joseph E and Barrett, Clark and Sheng, Ying},
+  abstract = {Large language models (LLMs) are increasingly used for complex tasks that require multiple generation calls, advanced prompting techniques, control flow, and structured inputs/outputs. However, efficient systems are lacking for programming and executing these applications. We introduce SGLang, a system for efficient execution of complex language model programs. SGLang consists of a frontend language and a runtime. The frontend simplifies programming with primitives for generation and parallelism control. The runtime accelerates execution with novel optimizations like RadixAttention for KV cache reuse and compressed finite state machines for faster structured output decoding. Experiments show that SGLang achieves up to 6.4\texttimes{} higher throughput compared to state-of-the-art inference systems on various large language and multi-modal models on tasks including agent control, logical reasoning, few-shot learning benchmarks, JSON decoding, retrieval-augmented generation pipelines, and multi-turn chat. The code is publicly available at https://github.com/sgl-project/sglang.},
+  langid = {english},
+  file = {/Users/edy/Zotero/storage/D2X477X9/Zheng 等 - SGLang Efficient Execution of Structured Language Model Programs.pdf}
+}
