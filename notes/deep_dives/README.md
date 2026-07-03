@@ -9,6 +9,7 @@
 - 只有用户明确要求时，才额外生成 PDF 阅读版。
 - `analysis.md` 用于长期迭代、补充公式推导、图示解释和个人理解。
 - `figures/` 用于保存自绘图、论文图截图、公式示意图或其他辅助材料。
+- deep dive 论文分析应图文并茂：优先从论文 PDF 中裁取关键原图，保留 figure 编号或 caption，并在 `analysis.md` 的相关段落就近引用；只有论文原图不足以解释时，才补充自绘图。
 
 建议结构：
 
@@ -29,3 +30,5 @@ deep_dives/
 
 - `onlineSoftmaxToFlashAttention/`：Online Softmax 到 FlashAttention。
 - `llmServingSystems/`：Orca、PagedAttention/vLLM、SGLang 组成的 LLM serving systems 主题。
+- `prefillDecodeDisaggregation/`：Splitwise、DistServe、Mooncake 组成的 prefill/decode 分离与全局 KVCache 编排主题。
+- `structuredGenerationConstrainedDecoding/`：GCD、XGrammar、JSONSchemaBench 组成的结构化生成与约束解码主题。
